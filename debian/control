@@ -1,0 +1,52 @@
+Source: libstdc++-arm-none-eabi
+Section: devel
+Priority: extra
+Maintainer: Agustin Henze <tin@debian.org>
+Uploaders: Keith Packard <keithp@keithp.com>
+Build-Depends:
+ autotools-dev,
+ binutils-arm-none-eabi,
+ gcc-arm-none-eabi,
+ libnewlib-arm-none-eabi,
+ bison,
+ debhelper (>= 9),
+ dejagnu,
+ flex,
+ gawk,
+ gcc-4.8-source,
+ gettext,
+ libgmp-dev,
+ libmpc-dev,
+ libmpfr-dev,
+ libtool,
+ locales,
+ lsb-release,
+ lzma,
+ m4,
+ patchutils,
+ sharutils,
+ texinfo,
+ xz-utils,
+ zlib1g-dev,
+ libisl-dev,
+ libcloog-isl-dev,
+Standards-Version: 3.9.5
+Homepage: http://gcc.gnu.org/
+Vcs-Git: git://anonscm.debian.org/collab-maint/libstdc++-arm-none-eabi.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/libstdc++-arm-none-eabi.git
+
+Package: libstdc++-arm-none-eabi-newlib
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ libnewlib-dev,
+ libnewlib-arm-none-eabi,
+Recommends:
+ binutils-arm-none-eabi,
+ gcc-arm-none-eabi,
+Description: GNU Standard C++ Library v3 for ARM Cortex-A/R/M processors (newlib)
+ GNU Standard C++ library for embedded ARM chips using Cortex-M0/M0+/M3/M4,
+ Cortex-R4/R5/R7 and Cortex-A* processors.
+ .
+ This library is built using newlib as standard C library.

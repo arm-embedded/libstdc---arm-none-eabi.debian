@@ -1,0 +1,5 @@
+libstdc++-arm-none-eabi (1) unstable; urgency=medium
+
+  * Initial release. (Closes: #736167)
+
+ -- Agustin Henze <tin@debian.org>  Tue, 28 Jan 2014 08:18:44 -0300

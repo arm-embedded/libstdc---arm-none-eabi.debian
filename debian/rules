@@ -1,0 +1,123 @@
+#!/usr/bin/make -f
+export DH_VERBOSE=1
+
+TARGET=arm-none-eabi
+
+MULTILIB_LIST="--with-multilib-list=armv6-m,armv7-m,armv7e-m,armv7-r"
+
+GCC_VERSION=4.8
+GCC_PACKAGE=gcc-$(GCC_VERSION)
+
+GCC_DIR=/usr/src/$(GCC_PACKAGE)
+
+SVERSION := $(shell dpkg-query -W -f="\$${Version}\n" $(GCC_PACKAGE)-source)
+DVERSION := $(SVERSION)+$(shell dpkg-parsechangelog | sed -ne "s/^Version: \(.*\)/\1/p")
+UVERSION := $(shell echo $(DVERSION) | cut -d- -f1)
+BASE_VERSION := $(shell echo $(DVERSION) | sed -e 's/\([1-9]\.[0-9]\).*-.*/\1/')
+
+TOP_DIR=$(shell pwd)
+UPSTREAM_DIR=$(TOP_DIR)/gcc-$(UVERSION)
+LIBSTDCXX_SDIR=$(UPSTREAM_DIR)/libstdc++-v3
+STAMP_DIR=$(TOP_DIR)/debian/stamp
+UNPACK=$(STAMP_DIR)/unpack
+APPY_PATCHES=$(STAMP_DIR)/patches
+BUILD_DIR=$(TOP_DIR)/build/libstdc++
+BUILD_SIZE_DIR=$(TOP_DIR)/build_s/libstdc++
+PNEWLIB=libstdc\+\+-arm-none-eabi-newlib
+
+BUILDFLAGS=CFLAGS="-g -O2 -ffunction-sections -fdata-sections -fno-exceptions" CXXFLAGS="-g -O2 -ffunction-sections -fdata-sections -fno-exceptions" LDFLAGS=""
+BUILDFLAGS_S=CFLAGS="-g -Os -ffunction-sections -fdata-sections -fno-exceptions" CXXFLAGS="-g -Os -ffunction-sections -fdata-sections -fno-exceptions" LDFLAGS=""
+
+TARGET_TOOLS=\
+	AR_FOR_TARGET=$(TARGET)-ar \
+	AS_FOR_TARGET=$(TARGET)-as \
+	LD_FOR_TARGET=$(TARGET)-ld \
+	NM_FOR_TARGET=$(TARGET)-nm \
+	OBJDUMP_FOR_TARGET=$(TARGET)-objdump \
+	RANLIB_FOR_TARGET=$(TARGET)-ranlib \
+	READELF_FOR_TARGET=$(TARGET)-readelf \
+	STRIP_FOR_TARGET=$(TARGET)-strip
+
+CONFIGURE_FLAGS = \
+	--with-cross-host=$(DEB_HOST_GNU_TYPE) \
+	--enable-multilib \
+	--disable-decimal-float \
+	--disable-libffi \
+	--disable-libgomp \
+	--disable-libmudflap \
+	--disable-libquadmath \
+	--disable-libssp \
+	--disable-libstdcxx-pch \
+	--disable-nls \
+	--disable-shared \
+	--disable-threads \
+	--disable-tls \
+	--disable-plugin \
+	--disable-libstdcxx-verbose \
+	--mandir=/usr/share/man \
+	--with-system-zlib \
+	--with-gnu-as \
+	--with-gnu-ld \
+	--with-newlib \
+	--with-headers=yes \
+	"--with-pkgversion=$(DVERSION)" \
+	--without-included-gettext \
+	--with-host-libstdcxx="-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm" \
+	--enable-languages=c,c++,lto \
+	--disable-option-checking \
+	--build=$(DEB_BUILD_GNU_TYPE) \
+	--target=$(TARGET) \
+	--host=$(TARGET) \
+	$(MULTILIB_LIST) \
+	$(TARGET_TOOLS)
+
+%:
+	dh $@ --with autotools-dev --parallel
+
+$(UNPACK):
+	mkdir -p $(STAMP_DIR)
+	tar xf $(GCC_DIR)/gcc-*.tar.*
+	cp /usr/share/doc/$(GCC_PACKAGE)-source/copyright debian/copyright-gcc
+	touch $@
+
+$(APPY_PATCHES): $(UNPACK)
+	for patch in debian/patches/[0-9]*.patch; do \
+			echo Applying patch "$$patch"; \
+			patch -p1 < "$$patch"; \
+	done && touch $@
+
+override_dh_auto_configure: $(UNPACK) $(APPY_PATCHES)
+	mkdir -p $(BUILD_DIR) $(BUILD_SIZE_DIR)
+	dh_auto_configure -D$(LIBSTDCXX_SDIR) -B$(BUILD_DIR) -- $(CONFIGURE_FLAGS) $(BUILDFLAGS)
+	dh_auto_configure -D$(LIBSTDCXX_SDIR) -B$(BUILD_SIZE_DIR) -- $(CONFIGURE_FLAGS) $(BUILDFLAGS_S)
+
+override_dh_auto_clean:
+	rm -rf $(UPSTREAM_DIR) build* debian/*tmp* debian/copyright-gcc $(STAMP_DIR)
+
+override_dh_auto_test:
+	dh_auto_test -D$(LIBSTDCXX_SDIR) -B$(BUILD_DIR)
+	dh_auto_test -D$(LIBSTDCXX_SDIR) -B$(BUILD_SIZE_DIR)
+
+override_dh_gencontrol:
+	dh_gencontrol -- -v$(DVERSION) -Vlocal:Version=$(UVERSION) -Vgcc:Version=$(SVERSION)
+
+override_dh_auto_build:
+	dh_auto_build -B $(BUILD_DIR)
+	dh_auto_build -B $(BUILD_SIZE_DIR)
+
+override_dh_auto_install:
+	dh_auto_install -B $(BUILD_DIR) --destdir debian/$(PNEWLIB)-tmp
+	dh_auto_install -B $(BUILD_SIZE_DIR) --destdir debian/$(PNEWLIB)-tmp_size
+	find debian/$(PNEWLIB)-tmp_size \
+		-name "*.a" \
+		-exec rename 's@debian/$(PNEWLIB)-tmp_size/(.*).a@debian/$(PNEWLIB)-tmp/$$1_s.a@' \{\} \;
+	find debian/$(PNEWLIB)-tmp -name "*.la" -exec rm -f {} +
+
+override_dh_install:
+	dh_install --sourcedir debian/$(PNEWLIB)-tmp
+
+override_dh_installchangelogs:
+	dh_installchangelogs $(UPSTREAM_DIR)/ChangeLog
+
+override_dh_strip:
+	dh_strip -X.a
