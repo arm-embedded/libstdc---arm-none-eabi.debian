@@ -81,10 +81,13 @@ $(UNPACK):
 	touch $@
 
 $(APPY_PATCHES): $(UNPACK)
-	for patch in debian/patches/[0-9]*.patch; do \
+	set -ex; \
+		cd $(UPSTREAM_DIR); \
+		for patch in $(shell cat debian/debian_patches.txt); do \
 			echo Applying patch "$$patch"; \
-			patch -p1 < "$$patch"; \
-	done && touch $@
+			patch -p2 < $(GCC_DIR)/patches/$$patch; \
+		done
+	touch $@
 
 override_dh_auto_configure: $(UNPACK) $(APPY_PATCHES)
 	mkdir -p $(BUILD_DIR) $(BUILD_SIZE_DIR)
