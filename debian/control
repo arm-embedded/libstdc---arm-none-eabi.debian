@@ -2,7 +2,6 @@ Source: libstdc++-arm-none-eabi
 Section: devel
 Priority: extra
 Maintainer: Agustin Henze <tin@debian.org>
-Uploaders: Keith Packard <keithp@keithp.com>
 Build-Depends:
  autotools-dev,
  binutils-arm-none-eabi,
