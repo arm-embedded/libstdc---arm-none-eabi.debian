@@ -36,6 +36,7 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/libstdc++-arm-none
 
 Package: libstdc++-arm-none-eabi-newlib
 Architecture: all
+Built-Using: ${Built-Using}
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},

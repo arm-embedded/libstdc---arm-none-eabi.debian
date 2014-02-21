@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-export DH_VERBOSE=1
+# export DH_VERBOSE=1
 
 TARGET=arm-none-eabi
 
@@ -14,6 +14,7 @@ SVERSION := $(shell dpkg-query -W -f="\$${Version}\n" $(GCC_PACKAGE)-source)
 DVERSION := $(SVERSION)+$(shell dpkg-parsechangelog | sed -ne "s/^Version: \(.*\)/\1/p")
 UVERSION := $(shell echo $(DVERSION) | cut -d- -f1)
 BASE_VERSION := $(shell echo $(DVERSION) | sed -e 's/\([1-9]\.[0-9]\).*-.*/\1/')
+BUILT_USING := $(shell dpkg-query -f '$${source:Package} (= $${source:Version}), ' -W gcc-4.8-source)
 
 TOP_DIR=$(shell pwd)
 UPSTREAM_DIR=$(TOP_DIR)/gcc-$(UVERSION)
@@ -102,7 +103,7 @@ override_dh_auto_test:
 	dh_auto_test -D$(LIBSTDCXX_SDIR) -B$(BUILD_SIZE_DIR)
 
 override_dh_gencontrol:
-	dh_gencontrol -- -v$(DVERSION) -Vlocal:Version=$(UVERSION) -Vgcc:Version=$(SVERSION)
+	dh_gencontrol -- -v$(DVERSION) -Vlocal:Version=$(UVERSION) -Vgcc:Version=$(SVERSION) -VBuilt-Using="$(BUILT_USING)"
 
 override_dh_auto_build:
 	dh_auto_build -B $(BUILD_DIR)
