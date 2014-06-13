@@ -1,3 +1,10 @@
+libstdc++-arm-none-eabi (2) unstable; urgency=medium
+
+  * Remove libstdc++-arm-wno-abi.diff patch from debian_patches.txt
+    (Closes: #750324)
+
+ -- Agustin Henze <tin@debian.org>  Fri, 13 Jun 2014 11:40:50 -0300
+
 libstdc++-arm-none-eabi (1) unstable; urgency=medium
 
   * Initial release. (Closes: #736167)
