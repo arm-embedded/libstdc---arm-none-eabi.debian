@@ -1,3 +1,9 @@
+libstdc++-arm-none-eabi (3) unstable; urgency=medium
+
+  * Rebuilt using current gcc version (Closes: #751320)
+
+ -- Agustin Henze <tin@debian.org>  Wed, 06 Aug 2014 17:50:55 -0300
+
 libstdc++-arm-none-eabi (2) unstable; urgency=medium
 
   * Remove libstdc++-arm-wno-abi.diff patch from debian_patches.txt
