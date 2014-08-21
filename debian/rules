@@ -26,7 +26,7 @@ BUILD_DIR=$(TOP_DIR)/build/libstdc++
 BUILD_SIZE_DIR=$(TOP_DIR)/build_s/libstdc++
 PNEWLIB=libstdc\+\+-arm-none-eabi-newlib
 
-BUILDFLAGS=CFLAGS="-g -O2 -ffunction-sections -fdata-sections -fno-exceptions" CXXFLAGS="-g -O2 -ffunction-sections -fdata-sections -fno-exceptions" LDFLAGS=""
+BUILDFLAGS=CFLAGS="-g -O2 -ffunction-sections -fdata-sections" CXXFLAGS="-g -O2 -ffunction-sections -fdata-sections" LDFLAGS=""
 BUILDFLAGS_S=CFLAGS="-g -Os -ffunction-sections -fdata-sections -fno-exceptions" CXXFLAGS="-g -Os -ffunction-sections -fdata-sections -fno-exceptions" LDFLAGS=""
 
 TARGET_TOOLS=\
