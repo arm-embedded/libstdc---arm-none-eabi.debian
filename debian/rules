@@ -114,7 +114,7 @@ override_dh_auto_install:
 	dh_auto_install -B $(BUILD_SIZE_DIR) --destdir debian/$(PNEWLIB)-tmp_size
 	find debian/$(PNEWLIB)-tmp_size \
 		-name "*.a" \
-		-exec rename 's@debian/$(PNEWLIB)-tmp_size/(.*).a@debian/$(PNEWLIB)-tmp/$$1_s.a@' \{\} \;
+		-exec rename 's@debian/$(PNEWLIB)-tmp_size/(.*).a@debian/$(PNEWLIB)-tmp/$$1_nano.a@' \{\} \;
 	find debian/$(PNEWLIB)-tmp -name "*.la" -exec rm -f {} +
 
 override_dh_install:
