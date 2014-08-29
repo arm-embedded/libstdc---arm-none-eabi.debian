@@ -1,4 +1,4 @@
-libstdc++-arm-none-eabi (4) UNRELEASED; urgency=medium
+libstdc++-arm-none-eabi (4) unstable; urgency=medium
 
   * Keep exceptions in the speed optimized version.
   * Use _nano suffix instead of _s for size optimized version of libraries.
