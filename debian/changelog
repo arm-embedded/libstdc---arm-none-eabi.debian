@@ -1,3 +1,9 @@
+libstdc++-arm-none-eabi (5) experimental; urgency=medium
+
+  * Rebuild using gcc-4.8-source_4.8.3-15
+
+ -- Agustin Henze <tin@debian.org>  Mon, 01 Dec 2014 14:45:13 -0300
+
 libstdc++-arm-none-eabi (4) unstable; urgency=medium
 
   * Keep exceptions in the speed optimized version.
