@@ -5,7 +5,7 @@ TARGET=arm-none-eabi
 
 MULTILIB_LIST="--with-multilib-list=armv6-m,armv7-m,armv7e-m,armv7-r"
 
-GCC_VERSION=4.8
+GCC_VERSION=4.9
 GCC_PACKAGE=gcc-$(GCC_VERSION)
 
 GCC_DIR=/usr/src/$(GCC_PACKAGE)
@@ -14,7 +14,7 @@ SVERSION := $(shell dpkg-query -W -f="\$${Version}\n" $(GCC_PACKAGE)-source)
 DVERSION := $(SVERSION)+$(shell dpkg-parsechangelog | sed -ne "s/^Version: \(.*\)/\1/p")
 UVERSION := $(shell echo $(DVERSION) | cut -d- -f1)
 BASE_VERSION := $(shell echo $(DVERSION) | sed -e 's/\([1-9]\.[0-9]\).*-.*/\1/')
-BUILT_USING := $(shell dpkg-query -f '$${source:Package} (= $${source:Version}), ' -W gcc-4.8-source)
+BUILT_USING := $(shell dpkg-query -f '$${source:Package} (= $${source:Version}), ' -W $(GCC_PACKAGE)-source)
 
 TOP_DIR=$(shell pwd)
 UPSTREAM_DIR=$(TOP_DIR)/gcc-$(UVERSION)
