@@ -1,3 +1,12 @@
+libstdc++-arm-none-eabi (6) unstable; urgency=medium
+
+  * Update to gcc-4.9
+  * Update debian patches list
+  * Bumped Standard-Version to 3.9.6 (no changes required)
+  * Switch to dpkg-source 3.0 (native) format
+
+ -- Agustin Henze <tin@debian.org>  Fri, 22 May 2015 17:48:48 -0300
+
 libstdc++-arm-none-eabi (5) experimental; urgency=medium
 
   * Rebuild using gcc-4.8-source_4.8.3-15
