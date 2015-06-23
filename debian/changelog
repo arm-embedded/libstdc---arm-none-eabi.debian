@@ -1,8 +1,8 @@
-libstdc++-arm-none-eabi (6~bpo8+1) jessie-backports; urgency=medium
+libstdc++-arm-none-eabi (7) unstable; urgency=medium
 
-  * Rebuild for jessie-backports.
+  * Remove python files, already delivered by libstdc++ (Closes: #787913)
 
- -- Agustin Henze <tin@debian.org>  Wed, 03 Jun 2015 08:25:23 -0300
+ -- Agustin Henze <tin@debian.org>  Mon, 22 Jun 2015 09:12:01 -0300
 
 libstdc++-arm-none-eabi (6) unstable; urgency=medium
 
