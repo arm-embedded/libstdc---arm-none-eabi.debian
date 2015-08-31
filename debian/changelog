@@ -1,3 +1,13 @@
+libstdc++-arm-none-eabi (8) unstable; urgency=medium
+
+  * Remove dependency on gcc-4.9-source and add dependency on
+    gcc-arm-none-eabi-source
+  * Update debian/rules to use gcc-arm-none-eabi as source
+  * Remove debian_patches.txt
+  * Rebuild using 15:4.9.3+svn227297-1
+
+ -- Agustin Henze <tin@debian.org>  Mon, 31 Aug 2015 11:02:27 -0300
+
 libstdc++-arm-none-eabi (7) unstable; urgency=medium
 
   * Remove python files, already delivered by libstdc++ (Closes: #787913)
