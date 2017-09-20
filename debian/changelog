@@ -1,3 +1,9 @@
+libstdc++-arm-none-eabi (9) unstable; urgency=medium
+
+  * Rebuild using 15:5.4.1+svn241155-1 (Closes: #845416)
+
+ -- Agustin Henze <tin@debian.org>  Fri, 09 Dec 2016 10:28:27 -0300
+
 libstdc++-arm-none-eabi (8) unstable; urgency=medium
 
   * Remove dependency on gcc-4.9-source and add dependency on
