@@ -1,3 +1,9 @@
+libstdc++-arm-none-eabi (10ubuntu1) UNRELEASED; urgency=medium
+
+  * Update VCS fields to point to salsa.debian.org.
+
+ -- Thomas Preud'homme <thomas.preudhomme@arm.com>  Mon, 02 Jul 2018 09:02:32 +0100
+
 libstdc++-arm-none-eabi (10) unstable; urgency=medium
 
   * Use new multilib profile
